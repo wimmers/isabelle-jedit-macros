@@ -2,7 +2,7 @@
 * Author: Simon Wimmer
 *
 * Hides the current selection from latex output,
-* or attempts to unhide a the current cursor position if no text is selected.
+* or attempts to unhide at the current cursor position if no text is selected.
 */
 
 int findMatchingBrace(int start, String left, String right)

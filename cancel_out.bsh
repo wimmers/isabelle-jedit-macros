@@ -2,7 +2,7 @@
 * Author: Simon Wimmer
 *
 * Comments out the current selection,
-* or attempts to uncomment a the current cursor position if no text is selected.
+* or attempts to uncomment at the current cursor position if no text is selected.
 * For cancel.
 */
 
