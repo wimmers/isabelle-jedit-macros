@@ -14,3 +14,4 @@ will surround it with the corresponding comment markers, else they will attempt 
 - `comment.bsh`: Add the comment marker `― ‹ ›`
 - `hide.bsh`: Add markers to hide enclosed Isabelle text from the PDF output `(*<*) (*>*)`
 - `old_comment.bsh`: Add ML-style comment `(* *)`
+- `uncomment.bsh`: Removes the first of the above comment markers that can be found at the current cursor position.
