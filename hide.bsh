@@ -1,0 +1,75 @@
+/*
+* Author: Simon Wimmer
+*
+* Hides the current selection from latex output,
+* or attempts to unhide a the current cursor position if no text is selected.
+*/
+
+int findMatchingBrace(int start, String left, String right)
+{
+  int count = 0;
+  right_len = right.length();
+  left_len = left.length();
+
+  for (int i = start; i < buffer.getLength() - right_len; i++) {
+    if (buffer.getText(i, left_len).equals(left)) {
+      count++;
+    } else if (buffer.getText(i, right_len).equals(right)) {
+      if(count > 0) {
+        count--;
+      } else {
+        return i;
+      }
+    }
+  }
+
+  return -1;
+}
+
+void toggleComment(View view, String marker, String left, String right)
+{
+	this.view = view;
+
+	startString = marker + left;
+	endString = right;
+
+	Selection[] selections = textArea.selection;
+	if (selections.length != 0){
+		for(Selection selection: selections)
+		{
+			newSelection = textArea.getSelectionAtOffset(textArea.caretPosition);
+			start = newSelection.start;
+			buffer.insert(start, startString);
+			textArea.extendSelection(start, start + startString.length());
+			buffer.insert(newSelection.end, endString);
+		}
+	} else {
+	    // No selection -- attempt to remove comment marker and cartouches
+			start = textArea.getCaretPosition();
+
+			// Remove marker
+			if (!buffer.getText(start, marker.length()).equals(marker)) return;
+			buffer.remove(start, marker.length());
+
+			// Remove whitespace
+			while (buffer.getText(start, 1).equals(" ")) {
+			  buffer.remove(start, 1);
+			}
+
+			// Remove left cartouche
+			if (!buffer.getText(start, left.length()).equals(left)) return;
+			buffer.remove(start, left.length());
+
+			// Find matching cartouche
+			end = findMatchingBrace(textArea.getCaretPosition(), left, right);
+			if (end >= 0)
+			{
+			  buffer.remove(end, right.length());
+			}
+	}
+}
+
+if(buffer.isReadOnly())
+	Macros.error(view, "Buffer is read-only.");
+else
+	toggleComment(view, "", "(*<*)", "(*>*)");
